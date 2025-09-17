@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ministry of Education - National School Directory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0369a1;
+            border-radius: 10px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9fafb;
+            background-image: url('https://www.transparenttextures.com/patterns/lines.png'); /* Subtle lines background */
+            transition: background-color 0.3s ease;
+        }
+
+        header {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem; /* Adjust size as needed */
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.1); /* Light color for watermark effect */
+            white-space: nowrap;
+            pointer-events: none; /* Prevent interaction */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            z-index: 0; /* Behind other content */
+        }
+
+        .school-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .school-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .active-filter {
+            background-color: #0369a1 !important;
+            color: white !important;
+        }
+
+        .header-image {
+            width: 110px; /* Decreased size */
+            height: auto;
+            border-radius: 20px;
+            float: left; /* Align to the left */
+            margin-right: 20px; /* Space between image and text */
+        }
+
+        /* Navigation Link Hover Effect */
+        nav a {
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #60a5fa; /* Light blue */
+            transform: scale(1.05);
+        }
+
+        .water-container {
+            position: relative;
+            text-align: center;
+        }
+
+        .water-text {
+            font-size: 6rem; /* Larger size */
+            font-weight: 900;
+            color: transparent;
+            background: linear-gradient(
+                90deg,
+                #00b4db,
+                #0083b0,
+                #00b4db,
+                #00b4db,
+                #0083b0
+            );
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 25px rgba(0, 179, 255, 0.5);
+            animation: waterFlow 5s ease-in-out infinite;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+            position: relative; /* Ensure it is above the images */
+            z-index: 1; /* Above the images */
+        }
+
+        @keyframes waterFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .image-container {
+            position: relative; /* Positioning behind the text */
+            display: flex;
+            justify-content: center;
+            flex-direction: column; /* Stack images vertically */
+            align-items: center; /* Center align */
+            z-index: 0; /* Behind the text */
+            padding: 20px; /* Add padding for better spacing */
+            color: rgb(11, 1, 48);
+        }
+
+        .image-container img {
+            width: 150px; /* Set a fixed width for images */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            transition: transform 0.2s ease;
+        }
+
+        .image-description {
+            margin-top: 10px; /* Space between image and text */
+            font-size: 1.2rem; /* Adjust font size */
+            text-align: center; /* Center align text */
+        }
+
+        /* Nylon effect for the button */
+        .nylon-button {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            padding: 12px 24px;
+            color: white;
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nylon-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            background: linear-gradient(
+                45deg,
+                #ff6b6b,
+                #f7d94c,
+                #36d1dc,
+                #5b86e5
+            );
+            background-size: 400% 400%;
+            z-index: -1;
+            filter: blur(10px);
+            animation: nylon-button 1s linear infinite;
+            animation-delay: 0.5s;        }
+
+        @keyframes .nylon-button {
+            0% {
+                background-position: 0% 50%;
+                right: -100%;
+            }
+            50%,
+            100% {
+                right: 100%;
+            }
+
+        }
+
+        @keyframes nylon {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .about-section {
+            height: auto; /* allow flexible height */
+            display: flex; /* Use flexbox for layout */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            background-color: #e0f2fe; /* Light blue */
+            border: 1px solid #60a5fa; /* Light blue border */
+            border-radius: 8px; /* Rounded corners */
+            padding: 20px; /* Padding for spacing */
+            margin: 20px; /* Margin for spacing */
+            margin-top: 110px; /* Top margin for spacing */
+            flex-wrap: wrap; /* Wrap content on smaller screens */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .water-text {
+                font-size: 3rem; /* Smaller size on mobile */
+            }
+            .image-container img {
+                width: 100px; /* Smaller images on mobile */
+                margin-bottom: 1rem;
+            }
+            .about-section {
+                flex-direction: column;
+                height: auto;
+                text-align: center;
+                margin-top: 80px;
+            }
+            .header-image {
+                float: none;
+                margin: 0 auto 10px auto;
+                display: block;
+                width: 80px;
+            }
+            header .container > div {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            header h1 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            nav {
+                display: none;
+            }
+            nav.mobile-active {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            nav a {
+                padding: 0.5rem 0;
+            }
+            /* Make watermark smaller and less intrusive on mobile */
+            .watermark {
+                font-size: 2rem;
+                top: 55%;
+            }
+        }
+
+        /* Hamburger menu button style */
+        #menu-toggle {
+            display: none;
+        }
+
+        #menu-toggle:checked + nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Show hamburger menu only on mobile */
+        .menu-btn {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="font-roboto bg-gray-50">
+    <!-- Simple Header -->
+    <header class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6 relative flex justify-between items-center flex-wrap">
+            <div class="watermark">
+                <marquee>Ministry of Education & Training</marquee>
+            </div>
+            <div class="flex items-center space-x-4 flex-shrink-0">
+                <img
+                    src="code2.jpg"
+                    alt="Ministry of Education"
+                    class="header-image"
+                />
+                <h1 class="text-2xl font-bold">Ministry of Education & Training</h1>
+            </div>
+
+            <!-- Hamburger Menu Button for mobile -->
+            <label for="menu-toggle" class="menu-btn ml-4 block md:hidden">
+                <svg
+                    class="fill-current text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        d="M4 5h16M4 12h16M4 19h16"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    />
+                </svg>
+            </label>
+            <input type="checkbox" id="menu-toggle" class="hidden" />
+
+            <nav
+                class="hidden md:flex space-x-6 text-white font-medium"
+                id="main-nav"
+            >
+                <a href="#about" class="hover:text-blue-300 transition">Mission</a>
+                <a href="#contact" class="hover:text-blue-300 transition">Contact</a>
+                <a
+                    href="login.php"
+                    class="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-lg transition"
+                    >Login Portal</a
+                >
+                <a
+                    href="register.html"
+                    class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition"
+                    >Sign Up</a
+                >
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section
+        style="
+            background-image: url('learning-3245793.jpg');
+            background-size: cover;
+            background-position: center;
+        "
+        class="text-white py-24"
+    >
+        <div class="container mx-auto px-4 text-center">
+            <div class="water-container">
+                <h1 class="water-text" data-text="MoET Portal Leribe">
+                    <b>MoET Portal Leribe</b>
+                </h1>
+                <div class="water-drops"></div>
+            </div>
+
+            <div class="flex justify-center gap-4 border-blue-300 mt-8">
+                <a href="login.php" class="nylon-button">Login Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <p class="text-lg text-blue-900 mb-4 text-center max-w-3xl mx-auto">
+            <span class="text-3xl text-blue-300 font-bold mb-4 block"
+                >Our Mission</span
+            >
+            The Ministry of Education and Training of Lesotho is committed to
+            delivering quality education services nationwide. Our mission is
+            to foster a knowledgeable and skilled population by providing
+            accessible, equitable, and quality education opportunities for all
+            citizens.
+        </p>
+
+        <!-- Image Container -->
+        <div class="image-container" id="image-container">
+            <img
+                src="w11.jpg"
+                alt="Thuto Ntsekhe-Mokhehle"
+                class="image"
+                style="display: none"
+            />
+            <div class="image-description" style="display: none">
+                Thuto Ntsekhe-Mokhehle <br /> CEO - Primary
+            </div>
+
+            <img
+                src="w33.jpg"
+                alt="Mabohlokoa Masuhloane"
+                class="image"
+                style="display: none"
+            />
+            <div class="image-description" style="display: none">
+                Mabohlokoa Masunhloane <br/> DEM - Leribe
+            </div>
+
+            <img
+                src="w22.jpg"
+                alt="Moipone Moshabesha"
+                class="image"
+                style="display: none"
+            />
+            <div class="image-description" style="display: none">
+                Moipone Moshabesha <br/> DEM a.i Leribe
+            </div>
+
+            <img
+                src="w44.jpg"
+                alt="Image 2"
+                class="image"
+                style="display: none"
+            />
+            <div class="image-description" style="display: none">
+                Seriti Morojele<br/>Dotor RIN
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Official Contacts</h2>
+            <div class="space-y-4 text-lg">
+                <p>
+                    Ministry Headquarters:
+                    <span class="font-medium">Education Tower, Capital City</span>
+                </p>
+                <p>
+                    Help Desk:
+                    <span class="font-medium">help@education.gov (0244-112233)</span>
+                </p>
+                <p>
+                    Technical Support:
+                    <span class="font-medium">support@education.gov</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center text-center">
+                <h3 class="font-bold text-lg mb-4">Ministry of Education</h3>
+                <p class="text-gray-300 mb-6">National School Directory Portal</p>
+                <div class="space-x-4">
+                    <a href="#" class="hover:text-blue-300 transition">Terms</a>
+                    <a href="#" class="hover:text-blue-300 transition">Privacy</a>
+                    <a href="#" class="hover:text-blue-300 transition">Help</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 Ministry of Education. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Toggle mobile nav menu manually is handled by input checkbox with label for "menu-toggle"
+
+        const images = document.querySelectorAll('.image');
+        const descriptions = document.querySelectorAll('.image-description');
+        let currentIndex = 0;
+
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+                descriptions[i].style.display = i === index ? 'block' : 'none';
+            });
+        }
+
+        function startImageRotation() {
+            showImage(currentIndex);
+            currentIndex = (currentIndex + 1) % images.length;
+            setTimeout(() => {
+                showImage(currentIndex);
+                currentIndex = (currentIndex + 1) % images.length;
+            }, 5000); // Change image every 5 seconds
+        }
+
+        // Start the image rotation
+        startImageRotation();
+        setInterval(startImageRotation, 10000); // Repeat every 10 seconds
+    </script>
+</body>
+</html>

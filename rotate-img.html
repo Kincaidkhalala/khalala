@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0; /* Light background for contrast */
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333; /* Dark text for the title */
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+            gap: 20px; /* Space between items */
+            width: 80%; /* Width of the gallery */
+            max-width: 1200px; /* Maximum width */
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden; /* Hide overflow for hover effect */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            transition: transform 0.3s; /* Smooth scaling effect */
+        }
+
+        .gallery-item img {
+            width: 100%; /* Full width */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove bottom space */
+            transition: transform 0.3s; /* Smooth scaling effect */
+        }
+
+        .description {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: white; /* Text color */
+            text-align: center;
+            padding: 10px; /* Padding for description */
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s; /* Smooth fade-in effect */
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05); /* Scale up on hover */
+        }
+
+        .gallery-item:hover .description {
+            opacity: 1; /* Show description on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Gallery</h1>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="w1.jpg" alt="Image 1">
+            <div class="description">Description for Image 1</div>
+        </div>
+        <div class="gallery-item">
+            <img src="w2.jpg" alt="Image 2">
+            <div class="description">Description for Image 2</div>
+        </div>
+        <div class="gallery-item">
+            <img src="w3.jpg" alt="Image 3">
+            <div class="description">Description for Image 3</div>
+        </div>
+        <div class="gallery-item">
+            <img src="w4.jpg" alt="Image 4">
+            <div class="description">Description for Image 4</div>
+        </div>
+    </div>
+</body>
+</html>
